@@ -1,0 +1,55 @@
+.button {
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  transition-property: filter, color, border, box-shadow, height, width;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  background: var(
+    --Gradients-Button,
+    linear-gradient(83deg, #07063d 0%, #31307c 94.75%)
+  );
+  color: var(--color-white);
+  text-align: center;
+  font-weight: 500;
+}
+
+.button:hover:not(.disabled) {
+  cursor: pointer;
+  filter: brightness(1.2);
+}
+
+.disabled {
+  color: var(--color-n5);
+  background: var(--color-n3);
+  cursor: auto;
+}
+
+/* VARIANT */
+
+.primary {
+}
+
+/* SIZE */
+
+.primary.small {
+  height: 32px;
+  padding: 0 26px;
+  font-size: 12px;
+}
+
+.primary.medium {
+  height: 48px;
+  padding: 0 94px;
+  font-size: 16px;
+}
+
+.button.icon {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  font-size: 16px;
+}

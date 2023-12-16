@@ -1,0 +1,30 @@
+.container {
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 100px 24px 24px;
+}
+
+.wrapper {
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.friendsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  height: 32vh;
+  overflow-x: scroll;
+}
+
+.button {
+  width: 100%;
+}

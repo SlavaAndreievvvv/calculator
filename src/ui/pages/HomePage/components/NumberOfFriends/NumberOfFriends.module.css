@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.text {
+  color: var(--color-n10);
+  font-size: 28px;
+  font-weight: 600;
+}

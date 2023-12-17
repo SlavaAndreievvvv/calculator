@@ -1,2 +1,3 @@
 export * from "./Input";
-export * from "./Buttton";
+export * from "./Button";
+export * from "./Popup";

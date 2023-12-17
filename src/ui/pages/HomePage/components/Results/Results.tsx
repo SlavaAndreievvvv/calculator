@@ -9,11 +9,11 @@ export interface ResultsProps {
 export const Results = ({ results, className }: ResultsProps) => {
   return (
     <div className={clxs(styles.container, className)}>
-      <h3 className={styles.title}>Результати розподілу:</h3>
+      <h3 className={styles.title}>Результати розподілу</h3>
       {results.map((result, index) => (
-        <p className={styles.text} key={index}>{`Друг ${
-          index + 1
-        }: ${result}`}</p>
+        <p className={styles.text} key={index}>
+          {result}
+        </p>
       ))}
     </div>
   );

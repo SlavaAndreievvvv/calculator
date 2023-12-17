@@ -25,7 +25,7 @@
 .disabled {
   color: var(--color-n5);
   background: var(--color-n3);
-  cursor: auto;
+  cursor: not-allowed;
 }
 
 /* VARIANT */

@@ -1,8 +1,8 @@
 "use client";
 
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { Button, Input, Popup } from "@/ui/components";
-import { NumberOfFriends, Results } from "./components";
+import { About, NumberOfFriends, Results } from "./components";
 import { useOnClickOutside } from "usehooks-ts";
 import styles from "./HomePage.module.css";
 
@@ -13,11 +13,12 @@ interface friendInfoProps {
 
 export const HomePage = () => {
   const [friendInfo, setFriendInfo] = useState<friendInfoProps[]>(
-    Array.from({ length: 2 }, () => ({ name: "", value: "" }))
+    Array.from({ length: 3 }, () => ({ name: "", value: "" }))
   );
 
   const [results, setResults] = useState<string[]>([]);
   const [isOpenPopup, setIsOpenPopup] = useState(false);
+  const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(true);
 
   const handleAddFriend = () => {
     setFriendInfo((prevFriendInfo) => [
@@ -45,10 +46,14 @@ export const HomePage = () => {
       let difference;
       if (parseFloat(value) > averageExpense) {
         difference = parseFloat(value) - averageExpense;
-        return `${name} повернути ${Math.round(difference)} грн`;
+        return `<span data-result='return'>${name} повернути ${Math.round(
+          difference
+        )} грн</span>`;
       }
       difference = averageExpense - parseFloat(value);
-      return `${name} докласти ${Math.round(difference)} грн`;
+      return `<span data-result='attach'>${name} докласти ${Math.round(
+        difference
+      )} грн</span>`;
     });
 
     setResults(newResults);
@@ -56,19 +61,13 @@ export const HomePage = () => {
   };
 
   const minTwoFriendChecked =
-    friendInfo.length <= 2 ? () => null : () => handleRemoveFriend();
+    friendInfo.length <= 3 ? () => null : () => handleRemoveFriend();
 
   const popupRef = useRef(null);
+  const aboutRef = useRef(null);
 
-  const handleClickOutside = () => {
-    setIsOpenPopup(false);
-  };
-
-  useOnClickOutside(popupRef, handleClickOutside);
-
-  useEffect(() => {
-    console.log("isOpenPopup", isOpenPopup);
-  }, [isOpenPopup]);
+  useOnClickOutside(popupRef, () => setIsOpenPopup(false));
+  useOnClickOutside(aboutRef, () => setIsAboutPopupOpen(false));
 
   return (
     <section className={styles.container}>
@@ -85,10 +84,10 @@ export const HomePage = () => {
 
         <div className={styles.friendsList}>
           {friendInfo.map(({ name, value }, index) => (
-            <div key={index}>
+            <div className={styles.friend} key={index}>
               <Input
                 htmlFor={`friendName${index + 1}`}
-                label="Ім'я друга "
+                placeholder="Ім'я друга"
                 name={`friendName${index + 1}`}
                 id={`friendName${index + 1}`}
                 value={name}
@@ -97,10 +96,11 @@ export const HomePage = () => {
                   newInfo[index].name = e.target.value;
                   setFriendInfo(newInfo);
                 }}
+                className={styles.input}
               />
               <Input
                 htmlFor={`friendValue${index + 1}`}
-                label="Витрати"
+                placeholder="Витрати"
                 name={`friendValue${index + 1}`}
                 id={`friendValue${index + 1}`}
                 value={value}
@@ -109,6 +109,7 @@ export const HomePage = () => {
                   newInfo[index].value = e.target.value;
                   setFriendInfo(newInfo);
                 }}
+                className={styles.input}
               />
             </div>
           ))}
@@ -116,6 +117,10 @@ export const HomePage = () => {
 
         <Popup ref={popupRef} isOpen={isOpenPopup}>
           <Results results={results} />
+        </Popup>
+
+        <Popup ref={aboutRef} isOpen={isAboutPopupOpen}>
+          <About />
         </Popup>
       </div>
     </section>

@@ -11,9 +11,11 @@ export const Results = ({ results, className }: ResultsProps) => {
     <div className={clxs(styles.container, className)}>
       <h3 className={styles.title}>Результати розподілу</h3>
       {results.map((result, index) => (
-        <p className={styles.text} key={index}>
-          {result}
-        </p>
+        <p
+          className={styles.text}
+          key={index}
+          dangerouslySetInnerHTML={{ __html: result }}
+        />
       ))}
     </div>
   );

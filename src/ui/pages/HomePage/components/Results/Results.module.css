@@ -1,7 +1,6 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 32px;
 }
 
@@ -19,4 +18,12 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.text span[data-result="return"] {
+  color: green;
+}
+
+.text span[data-result="attach"] {
+  color: red;
 }

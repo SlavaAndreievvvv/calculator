@@ -15,14 +15,19 @@ export const NumberOfFriends = ({
 }: NumberOfFriendsProps) => {
   return (
     <div className={styles.container}>
+      <span className={styles.mobileText}>
+        Кількість друзів: {numberOfFriends}
+      </span>
+
       <Button
         icon="minus"
         onClick={handleRemoveFriend}
-        disabled={numberOfFriends <= 2}
+        disabled={numberOfFriends <= 3}
+        className={styles.button}
       />
 
       <span className={styles.text}>Кількість друзів: {numberOfFriends}</span>
-      <Button icon="plus" onClick={handleAddFriend} />
+      <Button icon="plus" onClick={handleAddFriend} className={styles.button} />
     </div>
   );
 };

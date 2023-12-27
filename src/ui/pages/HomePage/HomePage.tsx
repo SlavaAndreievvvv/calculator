@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Button, Input, Popup } from "@/ui/components";
 import { About, NumberOfFriends, Results } from "./components";
 import { useOnClickOutside } from "usehooks-ts";
@@ -119,7 +119,11 @@ export const HomePage = () => {
           <Results results={results} />
         </Popup>
 
-        <Popup ref={aboutRef} isOpen={isAboutPopupOpen}>
+        <Popup
+          onClose={() => setIsAboutPopupOpen(false)}
+          ref={aboutRef}
+          isOpen={isAboutPopupOpen}
+        >
           <About />
         </Popup>
       </div>

@@ -1,25 +1,31 @@
 "use client";
 
 import clsx from "clsx";
-import styles from "./Popup.module.css";
 import { ReactNode, forwardRef, Ref } from "react";
+import styles from "./Popup.module.css";
 
 export interface PopupProps {
   className?: string;
   children: ReactNode;
   isOpen?: boolean;
+  onClose?: () => void;
 }
 
 export const Popup = forwardRef(
   (
-    { className, children, isOpen = false }: PopupProps,
+    { className, children, isOpen = false, onClose }: PopupProps,
     ref: Ref<HTMLDivElement>
   ) => {
     return isOpen ? (
       <div className={clsx(styles.container, className)}>
-        <span ref={ref} className={styles.card}>
+        <div ref={ref} className={styles.card}>
           {children}
-        </span>
+          {onClose && (
+            <button onClick={onClose} className={styles.close}>
+              {`спробувати >`}
+            </button>
+          )}
+        </div>
       </div>
     ) : null;
   }

@@ -6,18 +6,28 @@
 
 .title {
   color: var(--color-n10);
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
   text-align: center;
+}
+@media (min-width: 768px) {
+  .title {
+    font-size: 28px;
+  }
 }
 
 .text {
   color: var(--color-n10);
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 500;
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+@media (min-width: 768px) {
+  .title {
+    font-size: 24px;
+  }
 }
 
 .text span[data-result="return"] {

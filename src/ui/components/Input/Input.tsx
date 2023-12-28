@@ -6,10 +6,11 @@ import clsx from "clsx";
 export interface InputProps extends HTMLProps<HTMLInputElement> {
   label?: string;
   htmlFor?: string;
+  errorMessage?: string | null;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, htmlFor, ...rest }, ref) => {
+  ({ className, label, htmlFor, errorMessage, ...rest }, ref) => {
     return (
       <div className={clsx(styles.container, className)}>
         {label && (
@@ -18,6 +19,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
         <input className={styles.input} {...rest} ref={ref} />
+        {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
       </div>
     );
   }

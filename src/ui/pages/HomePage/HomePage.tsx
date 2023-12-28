@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { Button, Input, Popup } from "@/ui/components";
 import { About, NumberOfFriends, Results } from "./components";
 import { useOnClickOutside } from "usehooks-ts";
@@ -19,23 +19,66 @@ export const HomePage = () => {
   const [results, setResults] = useState<string[]>([]);
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(true);
+  const [nameDirties, setNameDirties] = useState<boolean[]>(
+    Array.from({ length: 3 }, () => false)
+  );
+  const [valueDirties, setValueDirties] = useState<boolean[]>(
+    Array.from({ length: 3 }, () => false)
+  );
+
+  const [nameErrors, setNameErrors] = useState<string[]>(
+    Array.from({ length: 3 }, () => "не може бути пустим")
+  );
+  const [valueErrors, setValueErrors] = useState<string[]>(
+    Array.from({ length: 3 }, () => "не може бути пустим")
+  );
+
+  const [validForm, setValidForm] = useState(false);
 
   const handleAddFriend = () => {
     setFriendInfo((prevFriendInfo) => [
       ...prevFriendInfo,
       { name: "", value: "" },
     ]);
+    setNameDirties((prev) => [...prev, false]);
+    setValueDirties((prev) => [...prev, false]);
+    setNameErrors((prev) => [...prev, "не може бути пустим"]);
+    setValueErrors((prev) => [...prev, "не може бути пустим"]);
   };
 
   const handleRemoveFriend = () => {
     setFriendInfo((prevFriendInfo) => {
       const newFriendInfo = [...prevFriendInfo];
       newFriendInfo.pop();
+
+      setNameDirties((prev) => prev.slice(0, -1));
+      setValueDirties((prev) => prev.slice(0, -1));
+      setNameErrors((prev) => prev.slice(0, -1));
+      setValueErrors((prev) => prev.slice(0, -1));
+
       return newFriendInfo;
     });
   };
 
-  const calculateShares = () => {
+  const calculateShares = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const isAnyNameEmpty = friendInfo.some(({ name }) => name.trim() === "");
+    const isAnyValueEmpty = friendInfo.some(({ value }) => value.trim() === "");
+
+    const hasNameError = nameErrors.some((error) => error !== "");
+    const hasValueError = valueErrors.some((error) => error !== "");
+
+    if (isAnyNameEmpty || isAnyValueEmpty) {
+      alert("Будь ласка, заповніть всі поля");
+      return;
+    }
+
+    if (hasNameError || hasValueError) {
+      alert("Спочатку виправіть помилки");
+      return;
+    }
+
     const totalExpense = friendInfo.reduce(
       (acc, { value }) => acc + parseFloat(value) || 0,
       0
@@ -69,6 +112,77 @@ export const HomePage = () => {
   useOnClickOutside(popupRef, () => setIsOpenPopup(false));
   useOnClickOutside(aboutRef, () => setIsAboutPopupOpen(false));
 
+  const blurHandler = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    switch (e.target.name) {
+      case `name${index + 1}`:
+        setNameDirties((prev) => {
+          const newArr = [...prev];
+          newArr[index] = true;
+          return newArr;
+        });
+        break;
+      case `value${index + 1}`:
+        setValueDirties((prev) => {
+          const newArr = [...prev];
+          newArr[index] = true;
+          return newArr;
+        });
+        break;
+    }
+  };
+
+  const nameHandler = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    const name = e.target.value;
+    const newInfo = [...friendInfo];
+    newInfo[index].name = name;
+    setFriendInfo(newInfo);
+
+    setNameDirties((prev) => {
+      const newArr = [...prev];
+      newArr[index] = true;
+      return newArr;
+    });
+
+    setNameErrors((prev) => {
+      const newArr = [...prev];
+      newArr[index] = name.trim().length !== 0 ? "" : "не може бути пустим";
+      return newArr;
+    });
+  };
+
+  const valueHandler = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    const value = e.target.value;
+    const newInfo = [...friendInfo];
+    newInfo[index].value = value;
+    setFriendInfo(newInfo);
+
+    setValueDirties((prev) => {
+      const newArr = [...prev];
+      newArr[index] = true;
+      return newArr;
+    });
+
+    setValueErrors((prev) => {
+      const newArr = [...prev];
+      newArr[index] = /^\d+$/.test(value) ? "" : "має бути цифрою";
+      return newArr;
+    });
+  };
+
+  useEffect(() => {
+    const isAnyNameEmpty = friendInfo.some(({ name }) => name.trim() === "");
+    const isAnyValueEmpty = friendInfo.some(({ value }) => value.trim() === "");
+
+    const hasNameError = nameErrors.some((error) => error !== "");
+    const hasValueError = valueErrors.some((error) => error !== "");
+
+    if (isAnyNameEmpty || isAnyValueEmpty || hasNameError || hasValueError) {
+      setValidForm(false);
+    } else {
+      setValidForm(true);
+    }
+  }, [friendInfo, nameErrors, valueErrors, validForm]);
+
   return (
     <section className={styles.container}>
       <div className={styles.wrapper}>
@@ -78,42 +192,41 @@ export const HomePage = () => {
           numberOfFriends={friendInfo.length}
         />
 
-        <Button className={styles.button} onClick={calculateShares}>
-          Розподілити витрати
-        </Button>
-
-        <div className={styles.friendsList}>
+        <form onSubmit={calculateShares} className={styles.friendsList}>
+          <Button className={styles.button} type="submit" disabled={!validForm}>
+            Розподілити витрати
+          </Button>
           {friendInfo.map(({ name, value }, index) => (
             <div className={styles.friend} key={index}>
               <Input
-                htmlFor={`friendName${index + 1}`}
+                htmlFor={`name${index + 1}`}
                 placeholder="Ім'я друга"
-                name={`friendName${index + 1}`}
-                id={`friendName${index + 1}`}
+                name={`name${index + 1}`}
+                id={`name${index + 1}`}
                 value={name}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  const newInfo = [...friendInfo];
-                  newInfo[index].name = e.target.value;
-                  setFriendInfo(newInfo);
-                }}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  nameHandler(e, index)
+                }
+                onBlur={(e) => blurHandler(e, index)}
+                errorMessage={nameDirties[index] ? nameErrors[index] : null}
                 className={styles.input}
               />
               <Input
-                htmlFor={`friendValue${index + 1}`}
+                htmlFor={`value${index + 1}`}
                 placeholder="Витрати"
-                name={`friendValue${index + 1}`}
-                id={`friendValue${index + 1}`}
+                name={`value${index + 1}`}
+                id={`value${index + 1}`}
                 value={value}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  const newInfo = [...friendInfo];
-                  newInfo[index].value = e.target.value;
-                  setFriendInfo(newInfo);
-                }}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  valueHandler(e, index)
+                }
+                onBlur={(e) => blurHandler(e, index)}
+                errorMessage={valueDirties[index] ? valueErrors[index] : null}
                 className={styles.input}
               />
             </div>
           ))}
-        </div>
+        </form>
 
         <Popup ref={popupRef} isOpen={isOpenPopup}>
           <Results results={results} />

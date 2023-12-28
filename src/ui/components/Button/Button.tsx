@@ -21,6 +21,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       icon,
       size = "medium",
       disabled,
+      onClick,
       ...rest
     },
     ref

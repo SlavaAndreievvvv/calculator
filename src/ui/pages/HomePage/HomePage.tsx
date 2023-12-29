@@ -185,10 +185,6 @@ export const HomePage = () => {
     }
   }, [friendInfo, nameErrors, valueErrors, validForm]);
 
-  useEffect(() => {
-    console.log(friendInfo);
-  }, [friendInfo]);
-
   return (
     <section className={styles.container}>
       <div className={styles.wrapper}>

@@ -91,14 +91,14 @@ export const HomePage = () => {
       let difference;
       if (parseFloat(value) > averageExpense) {
         difference = parseFloat(value) - averageExpense;
-        return `<span data-result='return'>${name} повернути ${Math.round(
+        return `<div data-result='return'>${name} повернути ${Math.round(
           difference
-        )} грн</span>`;
+        )} грн</вшс>`;
       }
       difference = averageExpense - parseFloat(value);
-      return `<span data-result='attach'>${name} докласти ${Math.round(
+      return `<div data-result='attach'>${name} докласти ${Math.round(
         difference
-      )} грн</span>`;
+      )} грн</div>`;
     });
 
     setResults(newResults);

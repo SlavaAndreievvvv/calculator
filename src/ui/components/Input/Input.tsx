@@ -1,5 +1,6 @@
 "use client";
 import { forwardRef, HTMLProps } from "react";
+import { motion } from "framer-motion";
 import styles from "./Input.module.css";
 import clsx from "clsx";
 
@@ -20,7 +21,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
         <input className={styles.input} {...rest} ref={ref} />
         {errorMessage && (
-          <div className={styles.errorMessage}>{errorMessage}</div>
+          <motion.div
+            className={styles.errorMessage}
+            initial={{ opacity: 0, y: -3, x: 3 }}
+            animate={{ opacity: 1, y: 0, x: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {errorMessage}
+          </motion.div>
         )}
       </div>
     );

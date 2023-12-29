@@ -19,7 +19,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
         <input className={styles.input} {...rest} ref={ref} />
-        {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
+        {errorMessage && (
+          <div className={styles.errorMessage}>{errorMessage}</div>
+        )}
       </div>
     );
   }

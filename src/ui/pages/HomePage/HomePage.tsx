@@ -4,6 +4,8 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { Button, Input, Popup } from "@/ui/components";
 import { About, NumberOfFriends, Results } from "./components";
 import { useOnClickOutside } from "usehooks-ts";
+import { motion } from "framer-motion";
+
 import styles from "./HomePage.module.css";
 
 interface friendInfoProps {
@@ -196,40 +198,54 @@ export const HomePage = () => {
           numberOfFriends={friendInfo.length}
         />
 
-        <form onSubmit={calculateShares} className={styles.friendsList}>
-          <Button className={styles.button} type="submit" disabled={!validForm}>
-            Розподілити витрати
-          </Button>
-          {friendInfo.map(({ name, value }, index) => (
-            <div className={styles.friend} key={index}>
-              <Input
-                htmlFor={`name${index + 1}`}
-                placeholder="Ім'я друга"
-                name={`name${index + 1}`}
-                id={`name${index + 1}`}
-                value={name}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  nameHandler(e, index)
-                }
-                onBlur={(e) => blurHandler(e, index)}
-                errorMessage={nameDirties[index] ? nameErrors[index] : null}
-                className={styles.input}
-              />
-              <Input
-                htmlFor={`value${index + 1}`}
-                placeholder="Витрати"
-                name={`value${index + 1}`}
-                id={`value${index + 1}`}
-                value={value}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  valueHandler(e, index)
-                }
-                onBlur={(e) => blurHandler(e, index)}
-                errorMessage={valueDirties[index] ? valueErrors[index] : null}
-                className={styles.input}
-              />
-            </div>
-          ))}
+        <form onSubmit={calculateShares} className={styles.form}>
+          <div className={styles.buttonWrapper}>
+            <Button
+              className={styles.button}
+              type="submit"
+              disabled={!validForm}
+            >
+              Розподілити витрати
+            </Button>
+          </div>
+          <ul className={styles.list}>
+            {friendInfo.map(({ name, value }, index) => (
+              <motion.li
+                className={styles.item}
+                key={index}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Input
+                  htmlFor={`name${index + 1}`}
+                  placeholder="Ім'я друга"
+                  name={`name${index + 1}`}
+                  id={`name${index + 1}`}
+                  value={name}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    nameHandler(e, index)
+                  }
+                  onBlur={(e) => blurHandler(e, index)}
+                  errorMessage={nameDirties[index] ? nameErrors[index] : null}
+                  className={styles.input}
+                />
+                <Input
+                  htmlFor={`value${index + 1}`}
+                  placeholder="Витрати"
+                  name={`value${index + 1}`}
+                  id={`value${index + 1}`}
+                  value={value}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    valueHandler(e, index)
+                  }
+                  onBlur={(e) => blurHandler(e, index)}
+                  errorMessage={valueDirties[index] ? valueErrors[index] : null}
+                  className={styles.input}
+                />
+              </motion.li>
+            ))}
+          </ul>
         </form>
 
         <Popup ref={popupRef} isOpen={isOpenPopup}>

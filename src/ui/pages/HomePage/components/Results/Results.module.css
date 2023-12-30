@@ -33,6 +33,7 @@
   padding: 24px;
   color: var(--color-white);
   border-radius: 16px;
+  text-align: center;
 }
 @media (min-width: 768px) {
   .text div {

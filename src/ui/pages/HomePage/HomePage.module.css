@@ -1,9 +1,20 @@
 .container {
-  background-color: var(--color-bg);
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   padding: 80px 24px 24px;
+  background: linear-gradient(
+        90deg,
+        var(--color-bg) calc(var(--dot-space) - var(--dot-size)),
+        transparent 1%
+      )
+      center / var(--dot-space) var(--dot-space),
+    linear-gradient(
+        var(--color-bg) calc(var(--dot-space) - var(--dot-size)),
+        transparent 1%
+      )
+      center / var(--dot-space) var(--dot-space),
+    var(--color-black);
 }
 
 .wrapper {
@@ -52,4 +63,13 @@
   width: 100%;
   flex-grow: 1;
   flex-basis: 200px;
+}
+
+.resultPopup {
+  min-width: 90vw;
+}
+@media (min-width: 1024px) {
+  .resultPopup {
+    min-width: 50vw;
+  }
 }

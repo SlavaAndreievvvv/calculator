@@ -7,6 +7,7 @@ import styles from "./Popup.module.css";
 
 export interface PopupProps {
   className?: string;
+  cardClassName?: string;
   children: ReactNode;
   isOpen?: boolean;
   onClose?: () => void;
@@ -14,14 +15,14 @@ export interface PopupProps {
 
 export const Popup = forwardRef(
   (
-    { className, children, isOpen = false, onClose }: PopupProps,
+    { className, cardClassName, children, isOpen = false, onClose }: PopupProps,
     ref: Ref<HTMLDivElement>
   ) => {
     return isOpen ? (
       <div className={clsx(styles.container, className)}>
         <motion.div
           ref={ref}
-          className={styles.card}
+          className={clsx(styles.card, cardClassName)}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}

@@ -1,12 +1,15 @@
 import clxs from "clsx";
-import styles from "./Results.module.css";
+import styles from "./HomePageResults.module.css";
 
-export interface ResultsProps {
+export interface HomePageResultsProps {
   className?: string;
   results: string[];
 }
 
-export const Results = ({ results, className }: ResultsProps) => {
+export const HomePageResults = ({
+  results,
+  className,
+}: HomePageResultsProps) => {
   return (
     <div className={clxs(styles.container, className)}>
       <h3 className={styles.title}>Результати розподілу</h3>

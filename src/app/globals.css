@@ -1,9 +1,11 @@
 /* Colors */
 
 :root {
+  /* SIZE */
   --mobile-container-padding-x: 16px;
   --desktop-container-padding-x: 24px;
 
+  /* COLORS */
   --color-black: black;
   --color-white: white;
 
@@ -17,6 +19,10 @@
   --color-p4: #5073ee;
 
   --color-r4: #f3421b;
+
+  /* BACKGROUND */
+  --dot-size: 1px;
+  --dot-space: 22px;
 }
 
 *,

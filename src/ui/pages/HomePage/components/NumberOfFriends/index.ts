@@ -1,1 +1,1 @@
-export * from "./NumberOfFriends";
+export * from "./HomePageNumberOfFriends";

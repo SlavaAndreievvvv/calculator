@@ -23,8 +23,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {errorMessage && (
           <motion.div
             className={styles.errorMessage}
-            initial={{ opacity: 0, y: -3, x: 3 }}
-            animate={{ opacity: 1, y: 0, x: 0 }}
+            initial={{ opacity: 0, y: -3 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
           >
             {errorMessage}

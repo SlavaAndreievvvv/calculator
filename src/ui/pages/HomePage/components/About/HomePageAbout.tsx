@@ -1,13 +1,13 @@
 "use client";
 
 import clsx from "clsx";
-import styles from "./About.module.css";
+import styles from "./HomePageAbout.module.css";
 
-export interface AboutProps {
+export interface HomePageAboutProps {
   className?: string;
 }
 
-export const About = ({ className }: AboutProps) => {
+export const HomePageAbout = ({ className }: HomePageAboutProps) => {
   return (
     <div className={clsx(styles.container, className)}>
       <h2 className={styles.title}>

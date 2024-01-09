@@ -1,20 +1,22 @@
-import clxs from "clsx";
-import styles from "./NumberOfFriends.module.css";
+import clsx from "clsx";
 import { Button } from "@/ui/components";
+import styles from "./HomePageNumberOfFriends.module.css";
 
-export interface NumberOfFriendsProps {
+export interface HomePageNumberOfFriendsProps {
+  className?: string;
   handleRemoveFriend: () => void;
   handleAddFriend: () => void;
   numberOfFriends: number;
 }
 
-export const NumberOfFriends = ({
+export const HomePageNumberOfFriends = ({
   handleRemoveFriend,
   handleAddFriend,
   numberOfFriends,
-}: NumberOfFriendsProps) => {
+  className,
+}: HomePageNumberOfFriendsProps) => {
   return (
-    <div className={styles.container}>
+    <div className={clsx(styles.container, className)}>
       <span className={styles.mobileText}>
         Кількість друзів: {numberOfFriends}
       </span>

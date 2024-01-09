@@ -2,7 +2,11 @@
 
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { Button, Input, Popup } from "@/ui/components";
-import { About, NumberOfFriends, Results } from "./components";
+import {
+  HomePageAbout,
+  HomePageNumberOfFriends,
+  HomePageResults,
+} from "./components";
 import { useOnClickOutside } from "usehooks-ts";
 import { motion } from "framer-motion";
 
@@ -91,14 +95,14 @@ export const HomePage = () => {
       let difference;
       if (parseFloat(value) > averageExpense) {
         difference = parseFloat(value) - averageExpense;
-        return `<div data-result='return'>${name} повернути ${Math.round(
-          difference
-        )} грн</вшс>`;
+        return `<div data-result='return'><span>${name} повернути</span> <span>
+          ${Math.round(difference)}
+         грн</span></div>`;
       }
       difference = averageExpense - parseFloat(value);
-      return `<div data-result='attach'>${name} докласти ${Math.round(
-        difference
-      )} грн</div>`;
+      return `<div data-result='attach'><span>${name} докласти</span> <span>
+        ${Math.round(difference)}
+       грн</span></div>`;
     });
 
     setResults(newResults);
@@ -188,7 +192,7 @@ export const HomePage = () => {
   return (
     <section className={styles.container}>
       <div className={styles.wrapper}>
-        <NumberOfFriends
+        <HomePageNumberOfFriends
           handleAddFriend={() => handleAddFriend()}
           handleRemoveFriend={minTwoFriendChecked}
           numberOfFriends={friendInfo.length}
@@ -244,8 +248,12 @@ export const HomePage = () => {
           </ul>
         </form>
 
-        <Popup ref={popupRef} isOpen={isOpenPopup}>
-          <Results results={results} />
+        <Popup
+          cardClassName={styles.resultPopup}
+          ref={popupRef}
+          isOpen={isOpenPopup}
+        >
+          <HomePageResults results={results} />
         </Popup>
 
         <Popup
@@ -253,7 +261,7 @@ export const HomePage = () => {
           ref={aboutRef}
           isOpen={isAboutPopupOpen}
         >
-          <About />
+          <HomePageAbout />
         </Popup>
       </div>
     </section>

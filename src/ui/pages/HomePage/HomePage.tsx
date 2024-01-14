@@ -1,15 +1,16 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { Button, Input, Popup } from "@/ui/components";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { Button, Popup } from "@/ui/components";
 import {
   HomePageAbout,
   HomePageNumberOfFriends,
   HomePageResults,
+  FriendInput,
 } from "./components";
 import { useOnClickOutside } from "usehooks-ts";
-import { motion } from "framer-motion";
 
+import { useFriendInfoValidation } from "@/utils/hooks";
 import styles from "./HomePage.module.css";
 
 interface friendInfoProps {
@@ -38,8 +39,6 @@ export const HomePage = () => {
   const [valueErrors, setValueErrors] = useState<string[]>(
     Array.from({ length: 3 }, () => "не може бути пустим")
   );
-
-  const [validForm, setValidForm] = useState(false);
 
   const handleAddFriend = () => {
     setFriendInfo((prevFriendInfo) => [
@@ -175,19 +174,11 @@ export const HomePage = () => {
     });
   };
 
-  useEffect(() => {
-    const isAnyNameEmpty = friendInfo.some(({ name }) => name.trim() === "");
-    const isAnyValueEmpty = friendInfo.some(({ value }) => value.trim() === "");
-
-    const hasNameError = nameErrors.some((error) => error !== "");
-    const hasValueError = valueErrors.some((error) => error !== "");
-
-    if (isAnyNameEmpty || isAnyValueEmpty || hasNameError || hasValueError) {
-      setValidForm(false);
-    } else {
-      setValidForm(true);
-    }
-  }, [friendInfo, nameErrors, valueErrors, validForm]);
+  const validForm = useFriendInfoValidation({
+    friendInfo,
+    nameErrors,
+    valueErrors,
+  });
 
   return (
     <section className={styles.container}>
@@ -210,40 +201,19 @@ export const HomePage = () => {
           </div>
           <ul className={styles.list}>
             {friendInfo.map(({ name, value }, index) => (
-              <motion.li
-                className={styles.item}
+              <FriendInput
                 key={index}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Input
-                  htmlFor={`name${index + 1}`}
-                  placeholder="Ім'я друга"
-                  name={`name${index + 1}`}
-                  id={`name${index + 1}`}
-                  value={name}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    nameHandler(e, index)
-                  }
-                  onBlur={(e) => blurHandler(e, index)}
-                  errorMessage={nameDirties[index] ? nameErrors[index] : null}
-                  className={styles.input}
-                />
-                <Input
-                  htmlFor={`value${index + 1}`}
-                  placeholder="Витрати"
-                  name={`value${index + 1}`}
-                  id={`value${index + 1}`}
-                  value={value}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    valueHandler(e, index)
-                  }
-                  onBlur={(e) => blurHandler(e, index)}
-                  errorMessage={valueDirties[index] ? valueErrors[index] : null}
-                  className={styles.input}
-                />
-              </motion.li>
+                index={index}
+                name={name}
+                value={value}
+                nameError={nameErrors[index]}
+                valueError={valueErrors[index]}
+                nameDirties={nameDirties[index]}
+                valueDirties={valueDirties[index]}
+                onBlur={blurHandler}
+                onNameChange={nameHandler}
+                onValueChange={valueHandler}
+              />
             ))}
           </ul>
         </form>

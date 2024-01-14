@@ -53,18 +53,6 @@
   gap: 16px;
 }
 
-.item {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  width: 100%;
-}
-.input {
-  width: 100%;
-  flex-grow: 1;
-  flex-basis: 200px;
-}
-
 .resultPopup {
   min-width: 90vw;
 }

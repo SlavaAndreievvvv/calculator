@@ -17,7 +17,7 @@ export interface FriendInputProps {
   onValueChange: (e: ChangeEvent<HTMLInputElement>, index: number) => void;
 }
 
-export const FriendInput: React.FC<FriendInputProps> = ({
+export const FriendInput = ({
   index,
   name,
   value,
@@ -28,7 +28,7 @@ export const FriendInput: React.FC<FriendInputProps> = ({
   onBlur,
   onNameChange,
   onValueChange,
-}) => (
+}: FriendInputProps) => (
   <motion.li
     className={styles.item}
     key={index}
@@ -56,6 +56,7 @@ export const FriendInput: React.FC<FriendInputProps> = ({
       onChange={(e: ChangeEvent<HTMLInputElement>) => onValueChange(e, index)}
       onBlur={(e) => onBlur(e, index)}
       errorMessage={valueDirties ? valueError : null}
+      inputMode="numeric"
       className={styles.input}
     />
   </motion.li>

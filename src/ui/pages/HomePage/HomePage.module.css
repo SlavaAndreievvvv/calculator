@@ -61,3 +61,39 @@
     min-width: 50vw;
   }
 }
+
+.createdBy {
+  color: var(--color-n8);
+  font-size: 16px;
+  font-weight: 500;
+  display: inline-block;
+  text-decoration: none;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 2px;
+}
+
+.createdBy:focus-within {
+  box-shadow: 0 0 0 3px var(--color-n5);
+}
+
+.createdBy::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--color-n5);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+@media (min-width: 1024px) {
+  .createdBy:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+}

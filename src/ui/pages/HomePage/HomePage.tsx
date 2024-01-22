@@ -1,6 +1,8 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
+import { useFriendInfoValidation, useCalculateShares } from "@/utils/hooks";
+import { useOnClickOutside } from "usehooks-ts";
 import { Button, Popup } from "@/ui/components";
 import {
   HomePageAbout,
@@ -8,12 +10,10 @@ import {
   HomePageResults,
   FriendInput,
 } from "./components";
-import { useOnClickOutside } from "usehooks-ts";
-
-import { useFriendInfoValidation } from "@/utils/hooks";
 import styles from "./HomePage.module.css";
+import Link from "next/link";
 
-interface friendInfoProps {
+export interface friendInfoProps {
   name: string;
   value: string;
 }
@@ -65,48 +65,13 @@ export const HomePage = () => {
     });
   };
 
-  const calculateShares = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const isAnyNameEmpty = friendInfo.some(({ name }) => name.trim() === "");
-    const isAnyValueEmpty = friendInfo.some(({ value }) => value.trim() === "");
-
-    const hasNameError = nameErrors.some((error) => error !== "");
-    const hasValueError = valueErrors.some((error) => error !== "");
-
-    if (isAnyNameEmpty || isAnyValueEmpty) {
-      alert("Будь ласка, заповніть всі поля");
-      return;
-    }
-
-    if (hasNameError || hasValueError) {
-      alert("Спочатку виправіть помилки");
-      return;
-    }
-
-    const totalExpense = friendInfo.reduce(
-      (acc, { value }) => acc + parseFloat(value) || 0,
-      0
-    );
-    const averageExpense = totalExpense / friendInfo.length;
-
-    const newResults = friendInfo.map(({ name, value }) => {
-      let difference;
-      if (parseFloat(value) > averageExpense) {
-        difference = parseFloat(value) - averageExpense;
-        return `<div data-result='return'><span>${name} повернути</span> <span>
-          ${Math.round(difference)}
-         грн</span></div>`;
-      }
-      difference = averageExpense - parseFloat(value);
-      return `<div data-result='attach'><span>${name} докласти</span> <span>
-        ${Math.round(difference)}
-       грн</span></div>`;
-    });
-
-    setResults(newResults);
-    setIsOpenPopup(true);
-  };
+  const calculateShares = useCalculateShares(
+    friendInfo,
+    nameErrors,
+    valueErrors,
+    setResults,
+    setIsOpenPopup
+  );
 
   const minTwoFriendChecked =
     friendInfo.length <= 3 ? () => null : () => handleRemoveFriend();
@@ -234,6 +199,13 @@ export const HomePage = () => {
           <HomePageAbout />
         </Popup>
       </div>
+      <Link
+        href="https://github.com/SlavaAndreievvvv"
+        target="_blank"
+        className={styles.createdBy}
+      >
+        Created by @andreievvv
+      </Link>
     </section>
   );
 };

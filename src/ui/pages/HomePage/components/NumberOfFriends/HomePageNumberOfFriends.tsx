@@ -22,6 +22,7 @@ export const HomePageNumberOfFriends = ({
       </span>
 
       <Button
+        type="button"
         icon="minus"
         onClick={handleRemoveFriend}
         disabled={numberOfFriends <= 3}
@@ -29,7 +30,12 @@ export const HomePageNumberOfFriends = ({
       />
 
       <span className={styles.text}>Кількість друзів: {numberOfFriends}</span>
-      <Button icon="plus" onClick={handleAddFriend} className={styles.button} />
+      <Button
+        type="button"
+        icon="plus"
+        onClick={handleAddFriend}
+        className={styles.button}
+      />
     </div>
   );
 };

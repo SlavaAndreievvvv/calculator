@@ -35,16 +35,23 @@ export const useCalculateShares = (
 
     const newResults = friendInfo.map(({ name, value }) => {
       let difference;
+
       if (parseFloat(value) > averageExpense) {
         difference = parseFloat(value) - averageExpense;
         return `<div data-result='return'><span>${name} повернути</span> <span>
           ${Math.round(difference)}
          грн</span></div>`;
       }
+
+      if (parseFloat(value) < averageExpense) {
+        difference = averageExpense - parseFloat(value);
+        return `<div data-result='attach'><span>${name} докласти</span> <span>${Math.round(
+          difference
+        )}грн</span></div>`;
+      }
+
       difference = averageExpense - parseFloat(value);
-      return `<div data-result='attach'><span>${name} докласти</span> <span>
-        ${Math.round(difference)}
-       грн</span></div>`;
+      return `<div data-result='null'><span>${name} нічого не повертати</span></div>`;
     });
 
     setResults(newResults);

@@ -49,3 +49,7 @@
 .text div[data-result="attach"] {
   background-color: rgba(231, 76, 60, 0.9);
 }
+
+.text div[data-result="null"] {
+  background-color: var(--color-n4);
+}

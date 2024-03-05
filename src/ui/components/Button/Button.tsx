@@ -41,7 +41,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <>
           {icon && renderIconVariant}
-          {!icon && children && <span>{children}</span>}
+          {!icon && children && <span className={styles.text}>{children}</span>}
         </>
       );
     };

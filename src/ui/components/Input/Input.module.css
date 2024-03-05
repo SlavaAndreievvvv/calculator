@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  height: 48px;
+  height: 56px;
   flex-shrink: 0;
 }
 
@@ -41,13 +41,13 @@
   background-color: var(--color-white);
   padding: 0 12px;
   transition: all 0.2s ease;
+  font-size: 18px;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .input::placeholder {
   color: var(--color-n5);
-  font-size: 16px;
-  font-weight: 500;
-  white-space: nowrap;
 }
 
 .input:hover {

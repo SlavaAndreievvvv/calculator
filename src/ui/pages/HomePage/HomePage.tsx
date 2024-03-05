@@ -148,21 +148,23 @@ export const HomePage = () => {
   return (
     <section className={styles.container}>
       <div className={styles.wrapper}>
-        <HomePageNumberOfFriends
-          handleAddFriend={() => handleAddFriend()}
-          handleRemoveFriend={minTwoFriendChecked}
-          numberOfFriends={friendInfo.length}
-        />
-
         <form onSubmit={calculateShares} className={styles.form}>
-          <div className={styles.buttonWrapper}>
-            <Button
-              className={styles.button}
-              type="submit"
-              disabled={!validForm}
-            >
-              Розподілити витрати
-            </Button>
+          <div className={styles.head}>
+            <div className={styles.headInner}>
+              <HomePageNumberOfFriends
+                handleAddFriend={() => handleAddFriend()}
+                handleRemoveFriend={minTwoFriendChecked}
+                numberOfFriends={friendInfo.length}
+                className={styles.numberOfFriends}
+              />
+              <Button
+                className={styles.button}
+                type="submit"
+                disabled={!validForm}
+              >
+                Розподілити витрати
+              </Button>
+            </div>
           </div>
           <ul className={styles.list}>
             {friendInfo.map(({ name, value }, index) => (
@@ -198,14 +200,15 @@ export const HomePage = () => {
         >
           <HomePageAbout />
         </Popup>
+
+        <Link
+          href="https://github.com/SlavaAndreievvvv"
+          target="_blank"
+          className={styles.createdBy}
+        >
+          Created by @andreievvv
+        </Link>
       </div>
-      <Link
-        href="https://github.com/SlavaAndreievvvv"
-        target="_blank"
-        className={styles.createdBy}
-      >
-        Created by @andreievvv
-      </Link>
     </section>
   );
 };

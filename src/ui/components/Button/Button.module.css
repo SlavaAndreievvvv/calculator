@@ -13,6 +13,7 @@
     linear-gradient(83deg, #07063d 0%, #31307c 94.75%)
   );
   color: var(--color-white);
+  text-align: center;
 }
 
 .button:hover:not(.disabled) {

@@ -28,11 +28,6 @@ export const Popup = forwardRef(
           transition={{ duration: 0.3 }}
         >
           {children}
-          {onClose && (
-            <button onClick={onClose} className={styles.close}>
-              {`спробувати >`}
-            </button>
-          )}
         </motion.div>
       </div>
     ) : null;

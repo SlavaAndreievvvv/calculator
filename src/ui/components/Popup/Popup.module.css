@@ -10,8 +10,9 @@
 }
 
 .card {
+  position: relative;
   background-color: var(--color-white);
-  background-image: url("/modal-bg.png");
+  background-image: url("/assets/modal-bg.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -27,12 +28,22 @@
 }
 
 .close {
-  color: var(--color-black);
-  font-size: 18px;
-  font-weight: 500;
+  cursor: pointer;
   outline: none;
   border: none;
   background-color: transparent;
-  cursor: pointer;
-  margin-top: 24px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  fill: var(--color-n8);
 }

@@ -126,3 +126,9 @@ textarea:not([rows]) {
 :target {
   scroll-margin-block: 5ex;
 }
+
+.hidden {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}

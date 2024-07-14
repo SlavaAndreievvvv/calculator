@@ -1,8 +1,7 @@
 "use client";
 
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, ComponentPropsWithoutRef, useState } from "react";
 import { useFriendInfoValidation, useCalculateShares } from "@/utils/hooks";
-import { useOnClickOutside } from "usehooks-ts";
 import { Button, Popup } from "@/ui/components";
 import {
   HomePageAbout,
@@ -10,15 +9,17 @@ import {
   HomePageResults,
   FriendInput,
 } from "./components";
-import styles from "./HomePage.module.css";
 import Link from "next/link";
+import styles from "./HomePage.module.css";
 
 export interface friendInfoProps {
   name: string;
   value: string;
 }
 
-export const HomePage = () => {
+interface HomePageProps extends ComponentPropsWithoutRef<"section"> {}
+
+export const HomePage = (): HomePageProps => {
   const [friendInfo, setFriendInfo] = useState<friendInfoProps[]>(
     Array.from({ length: 3 }, () => ({ name: "", value: "" }))
   );
@@ -75,12 +76,6 @@ export const HomePage = () => {
 
   const minTwoFriendChecked =
     friendInfo.length <= 3 ? () => null : () => handleRemoveFriend();
-
-  const popupRef = useRef(null);
-  const aboutRef = useRef(null);
-
-  useOnClickOutside(popupRef, () => setIsOpenPopup(false));
-  useOnClickOutside(aboutRef, () => setIsAboutPopupOpen(false));
 
   const blurHandler = (e: ChangeEvent<HTMLInputElement>, index: number) => {
     switch (e.target.name) {
@@ -146,65 +141,66 @@ export const HomePage = () => {
   });
 
   return (
-    <section className={styles.container}>
-      <div className={styles.wrapper}>
-        <form onSubmit={calculateShares} className={styles.form}>
-          <div className={styles.head}>
-            <div className={styles.headInner}>
-              <HomePageNumberOfFriends
-                handleAddFriend={() => handleAddFriend()}
-                handleRemoveFriend={minTwoFriendChecked}
-                numberOfFriends={friendInfo.length}
-                className={styles.numberOfFriends}
-              />
-              <Button
-                className={styles.button}
-                type="submit"
-                disabled={!validForm}
-              >
-                Розподілити витрати
-              </Button>
+    <>
+      <section className={styles.container}>
+        <div className={styles.wrapper}>
+          <form onSubmit={calculateShares} className={styles.form}>
+            <div className={styles.head}>
+              <div className={styles.headInner}>
+                <HomePageNumberOfFriends
+                  handleAddFriend={() => handleAddFriend()}
+                  handleRemoveFriend={minTwoFriendChecked}
+                  numberOfFriends={friendInfo.length}
+                  className={styles.numberOfFriends}
+                />
+                <Button
+                  className={styles.button}
+                  type="submit"
+                  disabled={!validForm}
+                >
+                  Розподілити витрати
+                </Button>
+              </div>
             </div>
-          </div>
-          <ul className={styles.list}>
-            {friendInfo.map(({ name, value }, index) => (
-              <FriendInput
-                key={index}
-                index={index}
-                name={name}
-                value={value}
-                nameError={nameErrors[index]}
-                valueError={valueErrors[index]}
-                nameDirties={nameDirties[index]}
-                valueDirties={valueDirties[index]}
-                onBlur={blurHandler}
-                onNameChange={nameHandler}
-                onValueChange={valueHandler}
-              />
-            ))}
-          </ul>
-        </form>
+            <ul className={styles.list}>
+              {friendInfo.map(({ name, value }, index) => (
+                <FriendInput
+                  key={index}
+                  index={index}
+                  name={name}
+                  value={value}
+                  nameError={nameErrors[index]}
+                  valueError={valueErrors[index]}
+                  nameDirties={nameDirties[index]}
+                  valueDirties={valueDirties[index]}
+                  onBlur={blurHandler}
+                  onNameChange={nameHandler}
+                  onValueChange={valueHandler}
+                />
+              ))}
+            </ul>
+          </form>
 
-        <Popup
-          cardClassName={styles.resultPopup}
-          ref={popupRef}
-          isOpen={isOpenPopup}
-        >
-          <HomePageResults results={results} />
-        </Popup>
+          <Link
+            href="https://github.com/SlavaAndreievvvv"
+            target="_blank"
+            className={styles.createdBy}
+          >
+            Created by @andreievvv
+          </Link>
+        </div>
+      </section>
+      <Popup
+        cardClassName={styles.resultPopup}
+        isOpen={isOpenPopup}
+        setIsOpen={setIsOpenPopup}
+      >
+        <HomePageResults results={results} />
+      </Popup>
 
-        <Popup ref={aboutRef} isOpen={isAboutPopupOpen}>
-          <HomePageAbout />
-        </Popup>
-
-        <Link
-          href="https://github.com/SlavaAndreievvvv"
-          target="_blank"
-          className={styles.createdBy}
-        >
-          Created by @andreievvv
-        </Link>
-      </div>
-    </section>
+      <Popup isOpen={isAboutPopupOpen} setIsOpen={setIsAboutPopupOpen}>
+        <HomePageAbout />
+      </Popup>
+    </>
   );
 };

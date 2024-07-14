@@ -193,11 +193,7 @@ export const HomePage = () => {
           <HomePageResults results={results} />
         </Popup>
 
-        <Popup
-          onClose={() => setIsAboutPopupOpen(false)}
-          ref={aboutRef}
-          isOpen={isAboutPopupOpen}
-        >
+        <Popup ref={aboutRef} isOpen={isAboutPopupOpen}>
           <HomePageAbout />
         </Popup>
 

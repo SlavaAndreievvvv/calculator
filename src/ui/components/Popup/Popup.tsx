@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { motion } from "framer-motion";
-import { ReactNode, forwardRef, Ref } from "react";
+import { ReactNode, forwardRef, Ref, useEffect } from "react";
 import styles from "./Popup.module.css";
 
 export interface PopupProps {
@@ -10,14 +10,24 @@ export interface PopupProps {
   cardClassName?: string;
   children: ReactNode;
   isOpen?: boolean;
-  onClose?: () => void;
 }
 
 export const Popup = forwardRef(
   (
-    { className, cardClassName, children, isOpen = false, onClose }: PopupProps,
+    { className, cardClassName, children, isOpen = false }: PopupProps,
     ref: Ref<HTMLDivElement>
   ) => {
+    useEffect(() => {
+      if (isOpen) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "visible";
+      }
+      return () => {
+        document.body.style.overflow = "visible";
+      };
+    }, [isOpen]);
+
     return isOpen ? (
       <div className={clsx(styles.container, className)}>
         <motion.div
@@ -30,7 +40,9 @@ export const Popup = forwardRef(
           {children}
         </motion.div>
       </div>
-    ) : null;
+    ) : (
+      <></>
+    );
   }
 );
 
